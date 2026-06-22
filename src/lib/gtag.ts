@@ -1,6 +1,5 @@
 type GoogleEventParams = {
-  category?: string;
-  label?: string;
+  ctaName?: string;
   ctaLocation?: string;
   ctaText?: string;
 };
@@ -12,22 +11,21 @@ declare global {
   }
 }
 
-export function trackGoogleEvent(action: string, params: GoogleEventParams = {}) {
+export function trackGoogleEvent(eventName: string, params: GoogleEventParams = {}) {
   if (typeof window === "undefined" || typeof window.gtag !== "function") {
     return;
   }
 
-  window.gtag("event", action, {
-    event_category: params.category ?? "cta",
-    event_label: params.label,
+  window.gtag("event", eventName, {
+    cta_name: params.ctaName,
     cta_location: params.ctaLocation,
-    cta_text: params.ctaText,
+    link_text: params.ctaText,
   });
 }
 
-export function trackCtaClick(action: string, ctaLocation: string, ctaText: string) {
-  trackGoogleEvent(action, {
-    label: `${ctaLocation}: ${ctaText}`,
+export function trackCtaClick(ctaName: string, ctaLocation: string, ctaText: string) {
+  trackGoogleEvent("cta_click", {
+    ctaName,
     ctaLocation,
     ctaText,
   });
