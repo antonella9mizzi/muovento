@@ -122,7 +122,7 @@ function ImageFitnessTraining() {
   return (
     <div className="h-[765px] relative rounded-[24px] shrink-0 w-[592px]" data-name="Image (Fitness Training)">
       <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[24px]">
-        <img alt="" className="absolute h-[116.06%] left-[-0.08%] max-w-none top-[-8.04%] w-full" src={imgImageFitnessTraining} />
+        <img alt="" className="absolute h-[116.06%] left-[-0.08%] max-w-none top-[-8.04%] w-full" src={imgImageFitnessTraining.src} />
       </div>
     </div>
   );

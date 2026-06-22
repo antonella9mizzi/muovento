@@ -1,23 +1,29 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
+import type { Variants } from "motion/react";
 import { MapPin, Zap, Users } from "lucide-react";
 import svgPaths from "@/imports/MacBookPro141/svg-as91ft63kz";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import imgFitness from "@/imports/MacBookPro141/84601a72623e11eaf461f5da5194e98528792350.png";
+import { trackCtaClick } from "@/lib/gtag";
 
 type TabMode = "prenota" | "offri";
 
-const containerVariants = {
+const smoothEase = [0.22, 1, 0.36, 1] as const;
+
+const containerVariants: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 32 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.65, ease: smoothEase },
   },
 };
 
@@ -186,7 +192,10 @@ function Header() {
           ))}
         </nav>
 
-        <button className="hidden md:flex items-center gap-2 bg-[#B6FF3B] text-[#0A0A0A] text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#ccff60] hover:scale-[1.04] active:scale-95 transition-all duration-200 shadow-[0_0_20px_rgba(182,255,59,0.25)]">
+        <button
+          className="hidden md:flex items-center gap-2 bg-[#B6FF3B] text-[#0A0A0A] text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#ccff60] hover:scale-[1.04] active:scale-95 transition-all duration-200 shadow-[0_0_20px_rgba(182,255,59,0.25)]"
+          onClick={() => trackCtaClick("cta_signup_header", "header_desktop", "Sign up")}
+        >
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 13.3333 13.3333">
             <path d={svgPaths.p7662700} />
           </svg>
@@ -228,7 +237,10 @@ function Header() {
           >
             Download l'app
           </a>
-          <button className="flex items-center justify-center gap-2 bg-[#B6FF3B] text-[#0A0A0A] text-sm font-semibold px-5 py-3 rounded-full">
+          <button
+            className="flex items-center justify-center gap-2 bg-[#B6FF3B] text-[#0A0A0A] text-sm font-semibold px-5 py-3 rounded-full"
+            onClick={() => trackCtaClick("cta_signup_header", "header_mobile", "Sign up")}
+          >
             Sign up
           </button>
         </motion.div>
@@ -293,7 +305,10 @@ function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.72, duration: 0.65 }}
           >
-            <button className="group flex items-center gap-2 bg-[#B6FF3B] text-[#0A0A0A] font-semibold px-7 py-3.5 rounded-full hover:bg-[#ccff60] hover:scale-[1.03] active:scale-95 transition-all duration-200 shadow-[0_0_28px_rgba(182,255,59,0.22)]">
+            <button
+              className="group flex items-center gap-2 bg-[#B6FF3B] text-[#0A0A0A] font-semibold px-7 py-3.5 rounded-full hover:bg-[#ccff60] hover:scale-[1.03] active:scale-95 transition-all duration-200 shadow-[0_0_28px_rgba(182,255,59,0.22)]"
+              onClick={() => trackCtaClick("cta_book_lesson", "hero", "Prenota una lezione")}
+            >
               <svg
                 className="w-4 h-4 group-hover:scale-110 transition-transform"
                 fill="currentColor"
@@ -303,7 +318,10 @@ function HeroSection() {
               </svg>
               Prenota una lezione
             </button>
-            <button className="group flex items-center gap-2 bg-transparent text-[#B6FF3B] font-semibold px-7 py-3.5 rounded-full border border-[#B6FF3B]/35 hover:bg-[#B6FF3B]/[0.08] hover:border-[#B6FF3B]/65 active:scale-95 transition-all duration-200">
+            <button
+              className="group flex items-center gap-2 bg-transparent text-[#B6FF3B] font-semibold px-7 py-3.5 rounded-full border border-[#B6FF3B]/35 hover:bg-[#B6FF3B]/[0.08] hover:border-[#B6FF3B]/65 active:scale-95 transition-all duration-200"
+              onClick={() => trackCtaClick("cta_offer_service", "hero", "Offri una prestazione")}
+            >
               <svg
                 className="w-4 h-4 group-hover:scale-110 transition-transform"
                 fill="#B6FF3B"
@@ -326,7 +344,7 @@ function HeroSection() {
           {/* Fitness image */}
           <div className="relative rounded-[28px] overflow-hidden aspect-[4/5] shadow-[0_48px_100px_rgba(0,0,0,0.6)]">
             <ImageWithFallback
-              src={imgFitness}
+              src={imgFitness.src}
               alt="Persona che si allena con una fascia di resistenza"
               className="w-full h-full object-cover object-center scale-[1.04]"
             />
@@ -530,7 +548,10 @@ function HowItWorksSection() {
             className="inline-flex items-center bg-[#1E2939] rounded-2xl p-1 gap-1"
           >
             <button
-              onClick={() => setActiveTab("prenota")}
+              onClick={() => {
+                setActiveTab("prenota");
+                trackCtaClick("cta_book_lesson_tab", "how_it_works", "Prenota una lezione");
+              }}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
                 activeTab === "prenota"
                   ? "bg-[#B6FF3B] text-[#0A0A0A] shadow-[0_0_16px_rgba(182,255,59,0.3)]"
@@ -546,7 +567,10 @@ function HowItWorksSection() {
               Prenota una lezione
             </button>
             <button
-              onClick={() => setActiveTab("offri")}
+              onClick={() => {
+                setActiveTab("offri");
+                trackCtaClick("cta_offer_service_tab", "how_it_works", "Offri una prestazione");
+              }}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
                 activeTab === "offri"
                   ? "bg-[#B6FF3B] text-[#0A0A0A] shadow-[0_0_16px_rgba(182,255,59,0.3)]"
@@ -637,7 +661,10 @@ function DownloadSection() {
               transition={{ delay: 0.5, duration: 0.65 }}
             >
               {/* Apple App Store */}
-              <button className="flex items-center gap-3 bg-black border border-[#A6A6A6]/35 rounded-xl h-14 px-5 hover:border-white/50 hover:bg-[#111] hover:scale-[1.03] active:scale-95 transition-all duration-200">
+              <button
+                className="flex items-center gap-3 bg-black border border-[#A6A6A6]/35 rounded-xl h-14 px-5 hover:border-white/50 hover:bg-[#111] hover:scale-[1.03] active:scale-95 transition-all duration-200"
+                onClick={() => trackCtaClick("cta_download_app_store", "download", "App Store")}
+              >
                 <svg className="w-6 h-7 shrink-0" fill="none" viewBox="0 0 20 24">
                   <path d={svgPaths.p39414c00} fill="white" />
                   <path d={svgPaths.p279a94f0} fill="white" />
@@ -649,7 +676,10 @@ function DownloadSection() {
               </button>
 
               {/* Google Play */}
-              <button className="flex items-center gap-3 bg-black border border-[#A6A6A6]/35 rounded-xl h-14 px-5 hover:border-white/50 hover:bg-[#111] hover:scale-[1.03] active:scale-95 transition-all duration-200">
+              <button
+                className="flex items-center gap-3 bg-black border border-[#A6A6A6]/35 rounded-xl h-14 px-5 hover:border-white/50 hover:bg-[#111] hover:scale-[1.03] active:scale-95 transition-all duration-200"
+                onClick={() => trackCtaClick("cta_download_google_play", "download", "Google Play")}
+              >
                 <svg className="w-6 h-7 shrink-0" fill="none" viewBox="0 0 21 24">
                   <path d={svgPaths.p3e6f9e80} fill="#EA4335" />
                   <path d={svgPaths.p8018300} fill="#FBBC04" />
